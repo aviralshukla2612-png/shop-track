@@ -43,17 +43,20 @@ class DatabaseSeeder {
          OR LOWER(product_name) LIKE '%classic gold%'
     ''');
 
+    // Purge any demo/dummy inventory, sales, purchases, and suppliers
+    await db.rawDelete("DELETE FROM inventory WHERE id IN ('inv-1', 'inv-2', 'inv-3')");
+    await db.rawDelete("DELETE FROM sales WHERE id = 'sale-1'");
+    await db.rawDelete("DELETE FROM sale_items WHERE sale_id = 'sale-1'");
+    await db.rawDelete("DELETE FROM purchases WHERE id = 'po-101'");
+    await db.rawDelete("DELETE FROM purchase_items WHERE purchase_id = 'po-101'");
+    await db.rawDelete("DELETE FROM purchase_list WHERE id IN ('pl-1', 'pl-2')");
+    await db.rawDelete("DELETE FROM suppliers WHERE id = 'sup-1'");
+
     final countResult = await db.rawQuery('SELECT count(*) as count FROM master_products');
     final count = Sqflite.firstIntValue(countResult) ?? 0;
 
     if (count == 0) {
       await _seedMasterProducts(db);
-    }
-
-    final invCountResult = await db.rawQuery('SELECT count(*) as count FROM inventory');
-    final invCount = Sqflite.firstIntValue(invCountResult) ?? 0;
-    if (invCount == 0) {
-      await _seedDefaultInventory(db);
     }
   }
 

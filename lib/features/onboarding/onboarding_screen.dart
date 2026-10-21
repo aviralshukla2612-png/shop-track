@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_theme.dart';
 import '../../providers/app_providers.dart';
@@ -29,7 +30,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     if (profile.shopName.isNotEmpty) {
       _shopNameCtrl.text = profile.shopName;
       _ownerCtrl.text = profile.shopOwner;
-      _phoneCtrl.text = profile.phone;
+      // Extract up to 10 digits for the phone field
+      final rawDigits = profile.phone.replaceAll(RegExp(r'\D'), '');
+      _phoneCtrl.text = rawDigits.length > 10 ? rawDigits.substring(rawDigits.length - 10) : rawDigits;
       _addressCtrl.text = profile.address;
       _gstinCtrl.text = profile.gstin;
     }
@@ -52,10 +55,13 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
     setState(() => _isSaving = true);
 
+    final rawPhone = _phoneCtrl.text.replaceAll(RegExp(r'\D'), '').trim();
+    final formattedPhone = rawPhone.isNotEmpty ? '+91 $rawPhone' : '';
+
     final profile = ShopProfile(
       shopName: isSkip ? (_shopNameCtrl.text.trim().isEmpty ? 'My Retail Store' : _shopNameCtrl.text.trim()) : _shopNameCtrl.text.trim(),
       shopOwner: isSkip ? (_ownerCtrl.text.trim().isEmpty ? 'Store Owner' : _ownerCtrl.text.trim()) : _ownerCtrl.text.trim(),
-      phone: _phoneCtrl.text.trim(),
+      phone: formattedPhone,
       address: _addressCtrl.text.trim(),
       gstin: _gstinCtrl.text.trim(),
       isConfigured: true,
@@ -223,9 +229,15 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                           TextFormField(
                             controller: _phoneCtrl,
                             keyboardType: TextInputType.phone,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(10),
+                            ],
                             decoration: InputDecoration(
-                              labelText: 'Contact Phone / WhatsApp *',
-                              hintText: 'e.g. +91 98765 43210',
+                              labelText: 'Contact Phone / WhatsApp (10 digits) *',
+                              hintText: '9876543210',
+                              prefixText: '+91 ',
+                              prefixStyle: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
                               prefixIcon: const Icon(Icons.phone_outlined, color: Color(0xFF64748B), size: 20),
                               filled: true,
                               fillColor: const Color(0xFFF8FAFC),
@@ -234,7 +246,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                             ),
                             validator: (val) {
                               if (val == null || val.trim().isEmpty) {
-                                return 'Please enter contact phone number';
+                                return 'Please enter 10-digit mobile number';
+                              }
+                              final digits = val.replaceAll(RegExp(r'\D'), '').trim();
+                              if (digits.length != 10) {
+                                return 'Phone number must be exactly 10 digits';
                               }
                               return null;
                             },

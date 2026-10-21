@@ -164,7 +164,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final ownerCtrl = TextEditingController(text: current.shopOwner);
     final addrCtrl = TextEditingController(text: current.address);
     final gstinCtrl = TextEditingController(text: current.gstin);
-    final phoneCtrl = TextEditingController(text: current.phone);
+    final rawDigits = current.phone.replaceAll(RegExp(r'\D'), '');
+    final phoneDigits = rawDigits.length > 10 ? rawDigits.substring(rawDigits.length - 10) : rawDigits;
+    final phoneCtrl = TextEditingController(text: phoneDigits);
 
     showDialog(
       context: context,
@@ -212,8 +214,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   const SizedBox(height: 12),
                   TextField(
                     controller: phoneCtrl,
+                    keyboardType: TextInputType.phone,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(10),
+                    ],
                     decoration: InputDecoration(
-                      labelText: 'Contact Phone Number',
+                      labelText: 'Contact Phone Number (10 digits)',
+                      hintText: '9876543210',
+                      prefixText: '+91 ',
+                      prefixStyle: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
                       filled: true,
                       fillColor: const Color(0xFFF8FAFC),
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
@@ -245,12 +255,21 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
               onPressed: () async {
+                final enteredDigits = phoneCtrl.text.replaceAll(RegExp(r'\D'), '').trim();
+                if (enteredDigits.isNotEmpty && enteredDigits.length != 10) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Phone number must be exactly 10 digits!')),
+                  );
+                  return;
+                }
+                final formattedPhone = enteredDigits.isNotEmpty ? '+91 $enteredDigits' : '';
+
                 final updated = current.copyWith(
                   shopName: nameCtrl.text.trim(),
                   shopOwner: ownerCtrl.text.trim(),
                   address: addrCtrl.text.trim(),
                   gstin: gstinCtrl.text.trim(),
-                  phone: phoneCtrl.text.trim(),
+                  phone: formattedPhone,
                   isConfigured: true,
                 );
                 await ref.read(shopProfileProvider.notifier).updateProfile(updated);
