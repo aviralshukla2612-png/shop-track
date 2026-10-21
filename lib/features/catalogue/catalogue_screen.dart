@@ -774,8 +774,8 @@ class _CatalogueScreenState extends ConsumerState<CatalogueScreen> {
                     backgroundColor: AppTheme.primaryColor,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
                   ),
-                  onPressed: () => _openAddToInventoryDialog(p),
-                  child: const Text('Add to Stock', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
+                  onPressed: () => _addToPurchaseListQuick(p),
+                  child: const Text('+ Add to List', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700)),
                 ),
               ),
             ],
@@ -805,22 +805,16 @@ class _CatalogueScreenState extends ConsumerState<CatalogueScreen> {
               Text('Reference Price: ${CurrencyFormatter.format(p.displayedPrice)} (${p.priceType})', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: AppTheme.primaryColor)),
           ],
         ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.add_shopping_cart, color: Color(0xFF7C3AED)),
-              tooltip: 'Add to Purchase List',
-              onPressed: () => _addToPurchaseListQuick(p),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-              ),
-              onPressed: () => _openAddToInventoryDialog(p),
-              child: const Text('Stock', style: TextStyle(fontSize: 11)),
-            ),
-          ],
+        trailing: ElevatedButton.icon(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            backgroundColor: AppTheme.primaryColor,
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+          ),
+          icon: const Icon(Icons.add, size: 14),
+          onPressed: () => _addToPurchaseListQuick(p),
+          label: const Text('Add to List', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
         ),
         onTap: () => _openProductDetailsSheet(p),
       ),
@@ -1160,42 +1154,24 @@ class _CatalogueScreenState extends ConsumerState<CatalogueScreen> {
                         _detailRow('Wholesale Cost Est.', CurrencyFormatter.format(activePrice * 0.8)),
                         _detailRow('Verification Status', p.verificationStatus.toUpperCase()),
                         const SizedBox(height: 24),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: OutlinedButton.icon(
-                                style: OutlinedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(vertical: 12),
-                                  side: const BorderSide(color: AppTheme.primaryColor, width: 1.5),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                ),
-                                icon: const Icon(Icons.add_shopping_cart, size: 18),
-                                label: Text('Procure $orderQuantity x ₹${activePrice.toStringAsFixed(0)}', style: const TextStyle(fontWeight: FontWeight.bold)),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  _addToPurchaseListWithPrice(p, activePrice, orderQuantity);
-                                },
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: ElevatedButton.icon(
-                                style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(vertical: 12),
-                                  backgroundColor: AppTheme.primaryColor,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                  elevation: 1,
-                                ),
-                                icon: const Icon(Icons.inventory_2, size: 18),
-                                label: Text('Stock ₹${activePrice.toStringAsFixed(0)} Pack', style: const TextStyle(fontWeight: FontWeight.bold)),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  _openAddToInventoryDialog(p, packPrice: activePrice, initialQty: orderQuantity);
-                                },
-                              ),
-                            ),
-                          ],
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            backgroundColor: AppTheme.primaryColor,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            elevation: 1,
+                            foregroundColor: Colors.white,
+                          ),
+                          icon: const Icon(Icons.playlist_add_rounded, size: 20),
+                          label: Text('Add $orderQuantity x ₹${activePrice.toStringAsFixed(0)} to Wholesale List', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5)),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            _addToPurchaseListWithPrice(p, activePrice, orderQuantity);
+                          },
                         ),
+                      ),
                       ],
                     ),
                   );
@@ -1806,27 +1782,41 @@ class _CatalogueScreenState extends ConsumerState<CatalogueScreen> {
   void _addToPurchaseListWithPrice(MasterProduct p, double packPrice, int qty) async {
     final cost = packPrice * 0.8;
     final priceLabel = '₹${packPrice.toStringAsFixed(0)} Pack';
-    final item = PurchaseListItem(
-      id: const Uuid().v4(),
-      masterProductId: p.id,
-      productName: '${p.name} ($priceLabel)',
-      brand: p.brand,
-      variant: priceLabel,
-      packSize: priceLabel,
-      requestedQuantity: qty.toDouble(),
-      estimatedUnitCost: cost,
-      isCostConfirmed: false,
-      status: 'pending',
-      imageUrl: p.imageUrl,
-      localImagePath: p.localImagePath,
-      addedAt: DateTime.now().toIso8601String(),
-    );
-
-    await ref.read(purchaseListProvider.notifier).addItem(item);
+    final fullName = '${p.name} ($priceLabel)';
+    
+    final currentList = ref.read(purchaseListProvider).value ?? [];
+    final existingIdx = currentList.indexWhere((it) => it.productName == fullName || (it.masterProductId == p.id && it.variant == priceLabel));
+    
+    if (existingIdx >= 0) {
+      final existing = currentList[existingIdx];
+      await ref.read(purchaseListProvider.notifier).updateItem(
+        existing.copyWith(requestedQuantity: existing.requestedQuantity + qty),
+      );
+    } else {
+      final item = PurchaseListItem(
+        id: const Uuid().v4(),
+        masterProductId: p.id,
+        productName: fullName,
+        brand: p.brand,
+        variant: priceLabel,
+        packSize: priceLabel,
+        requestedQuantity: qty.toDouble(),
+        estimatedUnitCost: cost,
+        isCostConfirmed: false,
+        status: 'pending',
+        imageUrl: p.imageUrl,
+        localImagePath: p.localImagePath,
+        addedAt: DateTime.now().toIso8601String(),
+      );
+      await ref.read(purchaseListProvider.notifier).addItem(item);
+    }
+    
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Added $qty x ${p.name} ($priceLabel) to Purchase List!'),
+          content: Text('Added $qty x ${p.name} ($priceLabel) to Wholesale List!'),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
       );
     }

@@ -78,7 +78,7 @@ class DashboardScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.picture_as_pdf),
             tooltip: 'Reports & Financial Statements',
-            onPressed: () => onNavigate(5), // Reports
+            onPressed: () => onNavigate(4), // Reports
           ),
         ],
       ),
@@ -142,7 +142,7 @@ class DashboardScreen extends ConsumerWidget {
               subtitle: "${metrics.todayTransactionsCount} transactions today",
               icon: Icons.payments,
               color: AppTheme.primaryColor,
-              onTap: () => onNavigate(4), // Analytics
+              onTap: () => onNavigate(3), // Analytics
             ),
             _kpiCard(
               title: "Today's Gross Profit",
@@ -150,7 +150,7 @@ class DashboardScreen extends ConsumerWidget {
               subtitle: "Net profit after COGS",
               icon: Icons.trending_up,
               color: AppTheme.successColor,
-              onTap: () => onNavigate(4), // Analytics
+              onTap: () => onNavigate(3), // Analytics
             ),
             _kpiCard(
               title: "Month's Sales",
@@ -158,7 +158,7 @@ class DashboardScreen extends ConsumerWidget {
               subtitle: "Gross: ${CurrencyFormatter.format(metrics.monthGrossProfit)} margin",
               icon: Icons.calendar_month,
               color: AppTheme.secondaryColor,
-              onTap: () => onNavigate(4),
+              onTap: () => onNavigate(3),
             ),
             _kpiCard(
               title: "Estimated Net Profit",
@@ -166,7 +166,7 @@ class DashboardScreen extends ConsumerWidget {
               subtitle: "Gross margin minus expenses",
               icon: Icons.account_balance_wallet,
               color: metrics.totalEstimatedNetProfit >= 0 ? const Color(0xFF047857) : Colors.red,
-              onTap: () => onNavigate(5),
+              onTap: () => onNavigate(4),
             ),
             _kpiCard(
               title: "Shop Inventory Value",
@@ -265,10 +265,10 @@ class DashboardScreen extends ConsumerWidget {
 
   Widget _buildQuickActions(BuildContext context) {
     final actions = [
-      {'title': 'Stock Inventory', 'icon': Icons.inventory_2_rounded, 'color': AppTheme.primaryColor, 'page': 2},
+      {'title': 'Wholesale List', 'icon': Icons.format_list_bulleted_rounded, 'color': AppTheme.primaryColor, 'page': 2},
       {'title': 'Browse Catalogue', 'icon': Icons.menu_book_rounded, 'color': const Color(0xFF0284C7), 'page': 1},
-      {'title': 'Purchase List', 'icon': Icons.shopping_cart_rounded, 'color': const Color(0xFF7C3AED), 'page': 3},
-      {'title': 'Record Expense', 'icon': Icons.receipt_long_rounded, 'color': const Color(0xFFD97706), 'page': 6},
+      {'title': 'Financial Analytics', 'icon': Icons.analytics_rounded, 'color': const Color(0xFF7C3AED), 'page': 3},
+      {'title': 'Record Expense', 'icon': Icons.receipt_long_rounded, 'color': const Color(0xFFD97706), 'page': 5},
     ];
 
     return Column(
@@ -545,7 +545,7 @@ class DashboardScreen extends ConsumerWidget {
                   ),
                 ),
                 InkWell(
-                  onTap: () => onNavigate(4), // Analytics
+                  onTap: () => onNavigate(3), // Analytics
                   borderRadius: BorderRadius.circular(8),
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),

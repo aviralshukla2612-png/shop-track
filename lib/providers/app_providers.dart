@@ -272,6 +272,11 @@ class PurchaseListNotifier extends StateNotifier<AsyncValue<List<PurchaseListIte
     await load();
   }
 
+  Future<void> clearAll() async {
+    await _repo.clearPurchaseList();
+    await load();
+  }
+
   Future<void> convertReceived({required List<PurchaseListItem> items, required String supplierName}) async {
     await _repo.convertReceivedToInventory(itemsToReceive: items, supplierName: supplierName);
     await load();

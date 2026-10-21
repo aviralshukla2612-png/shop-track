@@ -10,8 +10,7 @@ import 'features/analytics/analytics_screen.dart';
 import 'features/catalogue/catalogue_screen.dart';
 import 'features/dashboard/dashboard_screen.dart';
 import 'features/expenses/expenses_screen.dart';
-import 'features/inventory/inventory_screen.dart';
-import 'features/purchases/purchase_list_screen.dart';
+import 'features/shopping_list/shopping_list_screen.dart';
 import 'features/onboarding/onboarding_screen.dart';
 import 'features/reports/reports_screen.dart';
 import 'features/settings/settings_screen.dart';
@@ -142,8 +141,7 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
     final List<Widget> screens = [
       DashboardScreen(onNavigate: _onNavigate),
       const CatalogueScreen(),
-      const InventoryScreen(),
-      PurchaseListScreen(onBrowseCatalogue: () => _onNavigate(1)),
+      ShoppingListScreen(onBrowseCatalogue: () => _onNavigate(1)),
       const AnalyticsScreen(),
       const ReportsScreen(),
       const ExpensesScreen(),
@@ -193,8 +191,7 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
                         destinations: const [
                           NavigationRailDestination(icon: Icon(Icons.dashboard_outlined), selectedIcon: Icon(Icons.dashboard), label: Text('Dashboard')),
                           NavigationRailDestination(icon: Icon(Icons.menu_book_outlined), selectedIcon: Icon(Icons.menu_book), label: Text('Catalogue')),
-                          NavigationRailDestination(icon: Icon(Icons.inventory_2_outlined), selectedIcon: Icon(Icons.inventory_2), label: Text('Inventory')),
-                          NavigationRailDestination(icon: Icon(Icons.shopping_cart_outlined), selectedIcon: Icon(Icons.shopping_cart), label: Text('Purchase List')),
+                          NavigationRailDestination(icon: Icon(Icons.format_list_bulleted_rounded), selectedIcon: Icon(Icons.format_list_bulleted), label: Text('List')),
                           NavigationRailDestination(icon: Icon(Icons.analytics_outlined), selectedIcon: Icon(Icons.analytics), label: Text('Analytics')),
                           NavigationRailDestination(icon: Icon(Icons.picture_as_pdf_outlined), selectedIcon: Icon(Icons.picture_as_pdf), label: Text('Reports')),
                           NavigationRailDestination(icon: Icon(Icons.receipt_long_outlined), selectedIcon: Icon(Icons.receipt_long), label: Text('Expenses')),
@@ -215,9 +212,9 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
         return Scaffold(
           body: screens[_currentIndex],
           bottomNavigationBar: NavigationBar(
-            selectedIndex: _currentIndex > 4 ? 4 : _currentIndex,
+            selectedIndex: _currentIndex > 3 ? 3 : _currentIndex,
             onDestinationSelected: (idx) {
-              if (idx == 4) {
+              if (idx == 3) {
                 // Show more options menu for mobile
                 _showMoreOptionsSheet(context);
               } else {
@@ -227,8 +224,7 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
             destinations: const [
               NavigationDestination(icon: Icon(Icons.dashboard_outlined), selectedIcon: Icon(Icons.dashboard), label: 'Dashboard'),
               NavigationDestination(icon: Icon(Icons.menu_book_outlined), selectedIcon: Icon(Icons.menu_book), label: 'Catalogue'),
-              NavigationDestination(icon: Icon(Icons.inventory_2_outlined), selectedIcon: Icon(Icons.inventory_2), label: 'Inventory'),
-              NavigationDestination(icon: Icon(Icons.shopping_cart_outlined), selectedIcon: Icon(Icons.shopping_cart), label: 'Purchases'),
+              NavigationDestination(icon: Icon(Icons.format_list_bulleted_rounded), selectedIcon: Icon(Icons.format_list_bulleted), label: 'List'),
               NavigationDestination(icon: Icon(Icons.more_horiz), label: 'More'),
             ],
           ),
@@ -252,7 +248,7 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
                 title: const Text('Financial Analytics & COGS Profit'),
                 onTap: () {
                   Navigator.pop(context);
-                  setState(() => _currentIndex = 4);
+                  setState(() => _currentIndex = 3);
                 },
               ),
               ListTile(
@@ -260,7 +256,7 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
                 title: const Text('PDF Reports & Export'),
                 onTap: () {
                   Navigator.pop(context);
-                  setState(() => _currentIndex = 5);
+                  setState(() => _currentIndex = 4);
                 },
               ),
               ListTile(
@@ -268,7 +264,7 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
                 title: const Text('Operating Expenses'),
                 onTap: () {
                   Navigator.pop(context);
-                  setState(() => _currentIndex = 6);
+                  setState(() => _currentIndex = 5);
                 },
               ),
               ListTile(
@@ -276,7 +272,7 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
                 title: const Text('Settings & Catalogue Provenance'),
                 onTap: () {
                   Navigator.pop(context);
-                  setState(() => _currentIndex = 7);
+                  setState(() => _currentIndex = 6);
                 },
               ),
             ],
