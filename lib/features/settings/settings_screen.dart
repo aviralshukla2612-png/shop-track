@@ -695,12 +695,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 ),
                 SizedBox(height: 12),
                 Text(
-                  '4. Zero Third-Party Monetization',
+                  '4. Third-Party Services & Advertising',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Color(0xFF0D5C46)),
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'We do not sell, rent, license, or share your business data, financial metrics, customer phone numbers, or supplier agreements with data brokers, advertisers, or analytics aggregators.',
+                  'In the future, the app may display third-party advertisements in full compliance with Google Play Developer policies. We never sell, rent, or share your proprietary business numbers, margins, or records with advertisers or data brokers.',
                   style: TextStyle(fontSize: 12, height: 1.4),
                 ),
                 SizedBox(height: 12),
@@ -720,7 +720,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'If you have questions regarding this Privacy Policy, please contact our support team at:\nsupport@shoptrackapp.com',
+                  'Support: support@emperorsmartsolutions.com\nPrivacy Office: privacy@emperorsmartsolutions.com',
                   style: TextStyle(fontSize: 12, height: 1.4),
                 ),
               ],

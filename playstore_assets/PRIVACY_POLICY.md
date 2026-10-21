@@ -68,6 +68,7 @@ We may update this Privacy Policy periodically to reflect app improvements or re
 ## 8. Developer Contact & Support
 If you have questions, feedback, or concerns regarding this Privacy Policy or your data security, please reach out to:
 
-* **Email**: support@shoptrackapp.com
+* **Support Email**: support@emperorsmartsolutions.com
+* **Privacy Office**: privacy@emperorsmartsolutions.com
 * **Application**: Shop Track (Business Tracker)
-* **Developer**: Business Tracker Team
+* **Organization**: Emperor Smart Solutions
