@@ -124,6 +124,14 @@ class InventoryRepository {
     await db.delete('inventory', where: 'id = ?', whereArgs: [id]);
   }
 
+  Future<void> deleteAllItems() async {
+    final db = await AppDatabase.instance.database;
+    await db.transaction((txn) async {
+      await txn.delete('inventory');
+      await txn.delete('stock_adjustments');
+    });
+  }
+
   Future<InventoryValuationSummary> getInventoryValuation() async {
     final db = await AppDatabase.instance.database;
     final rows = await db.rawQuery('''
