@@ -1,0 +1,7 @@
+services:
+  shoptrack-privacy:
+    build: .
+    container_name: shoptrack-privacy
+    restart: always
+    ports:
+      - "8085:80"

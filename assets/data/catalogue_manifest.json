@@ -1,0 +1,28 @@
+{
+  "version": "3.0.0",
+  "generated_at": "2026-10-21T07:02:27.277Z",
+  "total_products": 629,
+  "sources": {
+    "balaji_wafers": 75,
+    "gopal_snacks": 89,
+    "gokul_snacks": 287,
+    "real_bites_bakery_pdf": 35,
+    "real_bites_namkeen_pdf": 143
+  },
+  "categories": [
+    "Namkeen",
+    "Packaged Snacks",
+    "Wafers & Chips",
+    "Snack Pellets",
+    "Bakery",
+    "Wafer Rolls",
+    "Nachos & Corn Chips",
+    "Extruded Snacks",
+    "Flour & Grains",
+    "Personal Care",
+    "Crunchy Krackers",
+    "Papad",
+    "Confectionery"
+  ],
+  "brands_count": 4
+}

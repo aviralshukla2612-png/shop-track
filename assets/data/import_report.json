@@ -1,0 +1,89 @@
+{
+  "generated_at": "2026-10-21T07:45:00.000Z",
+  "grand_total": {
+    "sources_count": 5,
+    "inspected_pages_or_categories": 52,
+    "discovered_products": 629,
+    "distinct_variants": 629,
+    "successfully_imported": 629,
+    "verified_image_urls": 450,
+    "local_pdf_images": 178,
+    "missing_images": 1,
+    "duplicate_candidates": 0,
+    "unverified_details": 194,
+    "inaccessible_pages": 0,
+    "errors_and_unresolved": []
+  },
+  "sources": {
+    "Balaji Wafers": {
+      "source_name": "Balaji Wafers",
+      "inspected_pages_or_categories": 1,
+      "discovered_products": 75,
+      "distinct_variants": 75,
+      "successfully_imported": 75,
+      "verified_image_urls": 75,
+      "local_pdf_images": 0,
+      "missing_images": 0,
+      "duplicate_candidates": 0,
+      "unverified_details": 0,
+      "inaccessible_pages": 0,
+      "errors": []
+    },
+    "Gopal Snacks": {
+      "source_name": "Gopal Snacks",
+      "inspected_pages_or_categories": 18,
+      "discovered_products": 89,
+      "distinct_variants": 89,
+      "successfully_imported": 89,
+      "verified_image_urls": 89,
+      "local_pdf_images": 0,
+      "missing_images": 0,
+      "duplicate_candidates": 0,
+      "unverified_details": 89,
+      "inaccessible_pages": 0,
+      "errors": []
+    },
+    "Gokul Snacks": {
+      "source_name": "Gokul Snacks",
+      "inspected_pages_or_categories": 1,
+      "discovered_products": 287,
+      "distinct_variants": 287,
+      "successfully_imported": 287,
+      "verified_image_urls": 286,
+      "local_pdf_images": 0,
+      "missing_images": 1,
+      "duplicate_candidates": 0,
+      "unverified_details": 37,
+      "inaccessible_pages": 0,
+      "errors": []
+    },
+    "Real Bites Bakery PDF": {
+      "source_name": "Real Bites Bakery PDF",
+      "inspected_pages_or_categories": 2,
+      "discovered_products": 35,
+      "distinct_variants": 35,
+      "successfully_imported": 35,
+      "verified_image_urls": 0,
+      "local_pdf_images": 35,
+      "missing_images": 0,
+      "duplicate_candidates": 0,
+      "unverified_details": 23,
+      "inaccessible_pages": 0,
+      "errors": []
+    },
+    "Real Bites Namkeen PDF": {
+      "source_name": "Real Bites Namkeen PDF",
+      "inspected_pages_or_categories": 30,
+      "discovered_products": 143,
+      "distinct_variants": 143,
+      "successfully_imported": 143,
+      "verified_image_urls": 0,
+      "local_pdf_images": 143,
+      "missing_images": 0,
+      "duplicate_candidates": 0,
+      "unverified_details": 45,
+      "inaccessible_pages": 0,
+      "errors": []
+    }
+  }
+}

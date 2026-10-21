@@ -1,0 +1,4 @@
+name,brand,category,subcategory,pack_size,barcode,mrp,purchase_price,selling_price,opening_stock,min_stock_level,supplier_name
+Classic Gold Cigarettes (King Size),ITC Limited,Tobacco & Pan Masala,Cigarettes,Pack of 20 Sticks,8901030582914,330.00,295.00,330.00,50,10,Metro Cash & Carry Wholesale
+Flake Filter Cigarettes (Regular),ITC Limited,Tobacco & Pan Masala,Cigarettes,Pack of 10 Sticks,8901030582921,60.00,52.00,60.00,100,20,Metro Cash & Carry Wholesale
+Vimal Pan Masala Pouch,Vimal,Tobacco & Pan Masala,Pan Masala,Pouch 4g,8906001234567,5.00,4.10,5.00,200,40,City Wholesale Agency
